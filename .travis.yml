@@ -1,4 +1,14 @@
+sudo: false
+
 language: cpp
+
+addons:
+    apt:
+        sources:
+            - ubuntu-toolchain-r-test
+
+before_install:
+    - pip install --user cpp-coveralls
 
 compiler:  
     - gcc
@@ -12,3 +22,6 @@ before_script:
 script: 
     - make
     - digilo_utils_test/digilo_utils_test
+
+after_success:
+    - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*"
