@@ -12,3 +12,4 @@ before_script:
 script: 
     - make
     - digilo_utils_test/digilo_utils_test
+    - scons
