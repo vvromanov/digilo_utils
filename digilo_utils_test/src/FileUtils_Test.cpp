@@ -17,4 +17,5 @@ TEST(FileUtils, FileNotExistsInvalid) {
     remove(TEST_FILE);
     EXPECT_FALSE(is_file_exist(""));
     EXPECT_FALSE(is_file_exist(TEST_FILE_INVALID));
+    EXPECT_FALSE(is_file_exist("../../../../../../../../../some_file.txt"));
 }
