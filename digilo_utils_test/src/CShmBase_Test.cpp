@@ -10,6 +10,7 @@ protected:
     virtual void SetUp() {
         ::testing::Test::SetUp();  // Sets up the base fixture first.
         TearDown();
+        EXPECT_FALSE(is_file_exist("/dev/shm/"TEST_SHM));
     }
 
     virtual void TearDown() {
