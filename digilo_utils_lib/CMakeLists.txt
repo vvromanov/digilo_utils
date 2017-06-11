@@ -13,7 +13,7 @@ add_library(${TARGET} STATIC
         src/common_utils.h
         src/file_utils.h
         src/file_utils.cpp
-        src/log.cpp)
+        src/log.cpp src/CShmDictionary.cpp src/CShmDictionary.h)
 
 target_link_libraries(${TARGET}
         )
