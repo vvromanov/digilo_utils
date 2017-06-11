@@ -8,5 +8,6 @@ before_script:
     - mkdir build
     - cd build
     - cmake ..
+    - digilo_utils_test/digilo_utils_test
 
 script: make
