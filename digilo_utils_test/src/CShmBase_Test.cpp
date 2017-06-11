@@ -54,6 +54,11 @@ TEST_F(ShmBase, ReOpen) {
     EXPECT_TRUE(test2.Open(TEST_SHM, 0));
 }
 
+TEST_F(ShmBase, ReOpenFailed) {
+    CShmBase test;
+    EXPECT_FALSE(test.Open(TEST_SHM, 0));
+}
+
 TEST_F(ShmBase, TooBigSize) {
     CShmBase test;
     EXPECT_FALSE(test.Open(TEST_SHM, 1024UL * 1024UL * 1024UL * 100UL)); //100 Gn
