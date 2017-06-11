@@ -1,3 +1,4 @@
+#define __STDC_FORMAT_MACROS
 #include "CShmBase.h"
 #include "log.h"
 #include "common_utils.h"
