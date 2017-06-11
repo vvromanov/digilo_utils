@@ -67,11 +67,13 @@ bool CShmBase::Open(const char *name, size_t size, bool resize) {
         Close();
         return false;
     }
+#ifndef __CYGWIN__
     if (mlock(data, size) != 0) {
         log_write(LOG_ERR | LOG_ERRNO, "mlock(%s) failed. size=%zu", name, size);
         Close();
         return false;
     }
+#endif
     inode = file_stat.st_ino;
     log_write(LOG_NOTICE, "Open Shm [%s]. Inode=%" PRIu64 ", size=%zu", name, inode, size);
     return true;
@@ -79,9 +81,11 @@ bool CShmBase::Open(const char *name, size_t size, bool resize) {
 
 void CShmBase::Close() {
     if (data && data != MAP_FAILED) {
+#ifndef __CYGWIN__
         if (munlock(data, size) != 0) {
             log_write(LOG_ERR | LOG_ERRNO, "munlock(%s) failed", name.c_str());
         }
+#endif
         munmap(data, size);
         close(fd);
     }

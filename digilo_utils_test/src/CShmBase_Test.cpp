@@ -61,5 +61,5 @@ TEST_F(ShmBase, ReOpenFailed) {
 
 TEST_F(ShmBase, TooBigSize) {
     CShmBase test;
-    EXPECT_FALSE(test.Open(TEST_SHM, 1024UL * 1024UL * 1024UL * 100UL)); //100 Gn
+    EXPECT_FALSE(test.Open(TEST_SHM, 1024UL * 1024UL * 1024UL * 100UL)); //100 Gb
 }

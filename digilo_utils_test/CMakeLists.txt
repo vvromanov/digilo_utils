@@ -10,6 +10,7 @@ include_directories(
 
 add_executable(${TARGET}
         src/CShmBase_Test.cpp
+        src/FileUtils_Test.cpp
         )
 
 target_link_libraries(${TARGET}
