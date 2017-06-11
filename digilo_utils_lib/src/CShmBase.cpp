@@ -6,6 +6,7 @@
 #include <fcntl.h>           /* For O_* constants */
 #include <sys/stat.h>
 #include <inttypes.h>
+#include <cerrno>
 
 CShmBase::CShmBase() {
     clear();
@@ -98,4 +99,14 @@ void CShmBase::clear() {
     fd = 0;
     inode = 0;
     name.clear();
+}
+
+bool CShmBase::IsDeleted() const {
+    struct stat sb;
+    std::string file_name(SHM_LOCATION);
+    file_name+=name;
+    if (0 != stat(file_name.c_str(), &sb)) {
+        return true;
+    }
+    return inode != sb.st_ino;
 }

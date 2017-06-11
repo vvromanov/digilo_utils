@@ -6,6 +6,8 @@
 #include <unistd.h>
 #include <string>
 
+#define SHM_LOCATION "/dev/shm/"
+
 class CShmBase {
     uint8_t *data;
     size_t size;
@@ -20,6 +22,7 @@ public:
 
     size_t GetSize() const { return size; };
     uint8_t* GetData() const { return data; };
+    bool IsDeleted() const;
 private:
     void clear();
 };

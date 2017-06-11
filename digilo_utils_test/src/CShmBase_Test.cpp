@@ -4,7 +4,7 @@
 #include "log.h"
 
 #define TEST_SHM "digilo_test"
-#define TEST_SHM_FILE "/dev/shm/"TEST_SHM
+#define TEST_SHM_FILE (SHM_LOCATION TEST_SHM)
 #define TEST_SHM_SIZE 4000U
 
 class ShmBase : public ::testing::Test {
@@ -62,4 +62,12 @@ TEST_F(ShmBase, ReOpenFailed) {
 TEST_F(ShmBase, TooBigSize) {
     CShmBase test;
     EXPECT_FALSE(test.Open(TEST_SHM, 1024UL * 1024UL * 1024UL * 100UL)); //100 Gb
+}
+
+TEST_F(ShmBase, IsDeleted) {
+    CShmBase test;
+    EXPECT_TRUE(test.Open(TEST_SHM, TEST_SHM_SIZE));
+    EXPECT_FALSE(test.IsDeleted());
+    EXPECT_EQ(0,remove(TEST_SHM_FILE));
+    EXPECT_TRUE(test.IsDeleted());
 }
