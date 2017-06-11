@@ -1,2 +1,3 @@
 # digilo_utils
-https://travis-ci.org/vvromanov/digilo_utils.svg?branch=master
+
+[![Build Status](https://travis-ci.org/vvromanov/digilo_utils.svg?branch=master)](https://travis-ci.org/vvromanov/digilo_utils)
