@@ -2,6 +2,7 @@
 #define DIGILO_UTILS_LOG_H_H
 #include <syslog.h>
 #include <stdint.h>
+#include <stdarg.h>
 
 #define LOG_ERRNO 0x1000
 

@@ -10,7 +10,7 @@ class CShmBase {
     uint8_t *data;
     size_t size;
     int fd;
-    int64_t inode;
+    ino_t inode;
     std::string name;
 public:
     CShmBase();
