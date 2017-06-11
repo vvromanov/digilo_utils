@@ -33,17 +33,16 @@ TEST(ShmDictionary, TooLongNames) {
     int str_size = 0;
     for (uint32_t i = 0; i < DICTIONARY_SIZE; i++) {
         char tmp[1000];
-        snprintf(tmp, sizeof(tmp),
-                 "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++%X",
-                 i);
+        snprintf(tmp, sizeof(tmp),"%0500X", i);
         str_size += strlen(tmp) + 1;
         if (str_size >= DICTIONARY_NAMES_STORAGE_SIZE) {
             EXPECT_EQ(DICTIONARY_INVALID_INDEX, d.Add(tmp));
-            break;
+            return;
         } else {
             EXPECT_EQ(i, d.Add(tmp));
         }
     }
+    ADD_FAILURE();
 }
 
 TEST(ShmDictionary, LookupByName) {
