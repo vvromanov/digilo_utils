@@ -32,3 +32,15 @@ TEST(ShmBase, OpenInvalidSize) {
     test.Close();
     EXPECT_FALSE(test.Open(TEST_SHM, TEST_SHM_SIZE+1));
 }
+
+TEST(ShmBase, AlreadyOpen) {
+    CShmBase test;
+    EXPECT_TRUE(test.Open(TEST_SHM, TEST_SHM_SIZE));
+    EXPECT_FALSE(test.Open(TEST_SHM, TEST_SHM_SIZE));
+}
+
+TEST(ShmBase, ReOpen) {
+    CShmBase test1,test2;
+    EXPECT_TRUE(test1.Open(TEST_SHM, TEST_SHM_SIZE));
+    EXPECT_TRUE(test2.Open(TEST_SHM, 0));
+}
