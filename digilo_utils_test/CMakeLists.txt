@@ -11,7 +11,7 @@ include_directories(
 add_executable(${TARGET}
         src/CShmBase_Test.cpp
         src/FileUtils_Test.cpp
-        )
+        src/Log_test.cpp)
 
 target_link_libraries(${TARGET}
         ${gtest_LIBS}

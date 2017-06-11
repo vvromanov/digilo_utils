@@ -15,7 +15,7 @@ bool CShmBase::Open(const char *name, size_t size, bool resize) {
     struct stat file_stat;
 
     if (fd > 0) {
-        log_critical("Shm [%s] already opened", name);
+        log_write(LOG_CRIT, "Shm [%s] already opened", name);
         return false;
     }
     clear();

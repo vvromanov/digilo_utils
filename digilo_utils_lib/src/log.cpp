@@ -4,19 +4,20 @@
 #include "log.h"
 #include "common_utils.h"
 
-bool log_to_syslog = false;
+bool log_to_syslog = true;
 bool log_to_console = true;
+uint64_t log_lines_count[LOG_MAX_LOG_LEVEL + 1];
 
-const char* level_to_name(int32_t level) {
+const char* log_level_to_name(int32_t level) {
     switch (level & LOG_PRIMASK) {
         case LOG_EMERG:
-            return "EMERG";
+            return "EMRG";
         case LOG_ALERT:
-            return "ALERT";
+            return "ALRT";
         case LOG_CRIT:
             return "CRIT";
         case LOG_ERR:
-            return "ERR";
+            return "ERRR";
         case LOG_WARNING:
             return "WARN";
         case LOG_NOTICE:
@@ -26,10 +27,13 @@ const char* level_to_name(int32_t level) {
         case LOG_DEBUG:
             return "DEBG";
         default:
+            __builtin_unreachable ();
             return "???";
     }
 }
+
 void log_writev(int level, const char *format, va_list ap) {
+    log_lines_count[level & LOG_PRIMASK]++;
     if (log_to_syslog) {
         if ((level & LOG_ERRNO)==LOG_ERRNO) {
             char tmp[1024];
@@ -41,7 +45,7 @@ void log_writev(int level, const char *format, va_list ap) {
         }
     }
     if (log_to_console) {
-        fprintf(stderr, "%s | ", level_to_name(level));
+        fprintf(stderr, "%s | ", log_level_to_name(level));
         vfprintf(stderr,format, ap);
         if ((level & LOG_ERRNO)==LOG_ERRNO) {
             fprintf(stderr, " | E%d - %s\n", errno, strerror(errno));
