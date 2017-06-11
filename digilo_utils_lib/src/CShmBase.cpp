@@ -15,8 +15,8 @@ bool CShmBase::Open(const char *name, size_t size, bool resize) {
     struct stat file_stat;
 
     if (fd > 0) {
-        log_critical("Shm area %s already opened", name);
-        Close();
+        log_critical("Shm [%s] already opened", name);
+        return false;
     }
     clear();
     this->name = name;
@@ -48,7 +48,7 @@ bool CShmBase::Open(const char *name, size_t size, bool resize) {
         if (!resize) {
             size_t realsize = file_stat.st_size;
             if (realsize && size != realsize) {
-                log_write(LOG_ERR, "Invalid shm area %s size=%zu instead of %zu", name, realsize, size);
+                log_write(LOG_ERR, "Invalid shm [%s] size=%zu instead of %zu", name, realsize, size);
                 Close();
                 return false;
             }
@@ -73,7 +73,7 @@ bool CShmBase::Open(const char *name, size_t size, bool resize) {
         return false;
     }
     inode = file_stat.st_ino;
-    log_write(LOG_NOTICE, "Open SHM area [%s]. Inode=%" PRIu64 ", size=%zu", name, inode, size);
+    log_write(LOG_NOTICE, "Open Shm [%s]. Inode=%" PRIu64 ", size=%zu", name, inode, size);
     return true;
 }
 
