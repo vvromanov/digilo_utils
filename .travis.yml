@@ -12,7 +12,6 @@ before_install:
 
 compiler:  
     - gcc
-    - clang
 
 before_script:  
     - mkdir build
@@ -24,4 +23,4 @@ script:
     - digilo_utils_test/digilo_utils_test
 
 after_success:
-    - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*" -E "gtest"
+    - coveralls --root .. -E ".*external.*" -E ".*CMakeFiles.*" -E ".*test/.*.cpp.*" -E "gtest/*.*"
