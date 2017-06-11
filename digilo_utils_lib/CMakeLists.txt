@@ -20,6 +20,7 @@ target_link_libraries(${TARGET}
 
 set(${TARGET}_LIBS
         ${TARGET}
+        rt
         )
 
 set(${TARGET}_LIBS ${${TARGET}_LIBS} PARENT_SCOPE)
