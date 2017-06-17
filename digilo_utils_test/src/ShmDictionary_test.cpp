@@ -1,3 +1,4 @@
+#include <CShmDictionary.h>
 #include "CShmDictionary.h"
 #include "gtest/gtest.h"
 
@@ -83,4 +84,79 @@ TEST(ShmDictionary, LookupById) {
     EXPECT_STREQ("g", d.Lookup(2));
     EXPECT_STREQ("a", d.Lookup(3));
     EXPECT_STREQ("b", d.Lookup(4));
+}
+
+TEST(ShmDictionary, GetIndex) {
+    CShmDictionary d;
+    d.Clear();
+    EXPECT_EQ(0, d.Add("e"));
+    EXPECT_EQ(1, d.Add("f"));
+    EXPECT_EQ(2, d.Add("g"));
+    EXPECT_EQ(3, d.Add("a"));
+    EXPECT_EQ(4, d.Add("b"));
+    CShmDictionary::index_info_t ii;
+    d.GetIndex(ii);
+    EXPECT_EQ(5,ii.count);
+    EXPECT_STREQ("a", d.Lookup(ii.index[0].id));
+    EXPECT_STREQ("b", d.Lookup(ii.index[1].id));
+    EXPECT_STREQ("e", d.Lookup(ii.index[2].id));
+    EXPECT_STREQ("f", d.Lookup(ii.index[3].id));
+    EXPECT_STREQ("g", d.Lookup(ii.index[4].id));
+}
+
+TEST(ShmDictionary, GetCategoryEmpty) {
+    CShmDictionary d;
+    d.Clear();
+    EXPECT_EQ(0, d.Add("e"));
+    EXPECT_EQ(1, d.Add("f"));
+    EXPECT_EQ(2, d.Add("g"));
+    EXPECT_EQ(3, d.Add("a"));
+    EXPECT_EQ(4, d.Add("b"));
+    CShmDictionary::index_info_t ii;
+    d.GetCategory("", ii);
+    EXPECT_EQ(5,ii.count);
+}
+
+TEST(ShmDictionary, GetCategoryNull) {
+    CShmDictionary d;
+    d.Clear();
+    EXPECT_EQ(0, d.Add("e"));
+    EXPECT_EQ(1, d.Add("f"));
+    EXPECT_EQ(2, d.Add("g"));
+    EXPECT_EQ(3, d.Add("a"));
+    EXPECT_EQ(4, d.Add("b"));
+    CShmDictionary::index_info_t ii;
+    d.GetCategory(NULL, ii);
+    EXPECT_EQ(5,ii.count);
+}
+
+TEST(ShmDictionary, GetCategory) {
+    CShmDictionary d;
+    d.Clear();
+    EXPECT_EQ(0, d.Add("aaaa"));
+    EXPECT_EQ(1, d.Add("b1"));
+    EXPECT_EQ(2, d.Add("b2"));
+    EXPECT_EQ(3, d.Add("b3"));
+    EXPECT_EQ(4, d.Add("caaaa"));
+    CShmDictionary::index_info_t ii;
+
+    d.GetCategory("a", ii);
+    EXPECT_EQ(1,ii.count);
+    EXPECT_STREQ("aaaa", d.Lookup(ii.index[0].id));
+
+    d.GetCategory("c", ii);
+    EXPECT_EQ(1,ii.count);
+    EXPECT_STREQ("caaaa", d.Lookup(ii.index[0].id));
+
+    d.GetCategory("1", ii);
+    EXPECT_EQ(0,ii.count);
+
+    d.GetCategory("z", ii);
+    EXPECT_EQ(0,ii.count);
+
+    d.GetCategory("b", ii);
+    EXPECT_EQ(3,ii.count);
+    EXPECT_STREQ("b1", d.Lookup(ii.index[0].id));
+    EXPECT_STREQ("b2", d.Lookup(ii.index[1].id));
+    EXPECT_STREQ("b3", d.Lookup(ii.index[2].id));
 }
